@@ -101,7 +101,7 @@ try:
     # opener.open(req)
     response = urllib.request.urlopen(req)
     print(response.info())
-    location = response.info().getheader("Location")
+    location = response.info().get("Location")
 except urllib.error.HTTPError as e:
     if e.code != 201:
         print(e.code)
