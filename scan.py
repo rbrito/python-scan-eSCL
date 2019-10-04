@@ -56,7 +56,7 @@ etree.register_namespace('pwg', pwgns)
 req = urllib.request.Request(url = scanner+'ScannerCapabilities')
 tree = etree.parse(urllib.request.urlopen(req))
 print("Scanner information:")
-print(etree.tostring(tree, pretty_print=True))
+print(etree.tostring(tree, pretty_print=True).decode())
 
 maxwid = etree.ETXPath("//{%s}MaxWidth" % scanns)(tree)[0].text
 maxhei = etree.ETXPath("//{%s}MaxHeight" % scanns)(tree)[0].text
@@ -82,7 +82,7 @@ etree.SubElement(req, "{%s}XResolution" % scanns).text = str(resolution)
 etree.SubElement(req, "{%s}YResolution" % scanns).text = str(resolution)
 
 print("Our scan request:")
-print(etree.tostring(req, pretty_print=True, xml_declaration=True, encoding="UTF-8"))
+print(etree.tostring(req, pretty_print=True, xml_declaration=True, encoding="UTF-8").decode())
 
 # Post the request:
 xml = etree.tostring(req, xml_declaration=True, encoding="UTF-8")
