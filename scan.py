@@ -3,8 +3,9 @@ import logging
 import sys
 import tempfile
 import time
-import urllib
-import urllib2
+import urllib.error
+import urllib.parse
+import urllib.request
 
 import zeroconf
 
@@ -52,10 +53,10 @@ pwgns = "http://www.pwg.org/schemas/2010/12/sm"
 etree.register_namespace('scan', scanns)
 etree.register_namespace('pwg', pwgns)
 
-req = urllib2.Request(url = scanner+'ScannerCapabilities')
-tree = etree.parse(urllib2.urlopen(req))
+req = urllib.request.Request(url = scanner+'ScannerCapabilities')
+tree = etree.parse(urllib.request.urlopen(req))
 print("Scanner information:")
-print etree.tostring(tree, pretty_print=True)
+print(etree.tostring(tree, pretty_print=True))
 
 maxwid = etree.ETXPath("//{%s}MaxWidth" % scanns)(tree)[0].text
 maxhei = etree.ETXPath("//{%s}MaxHeight" % scanns)(tree)[0].text
@@ -85,23 +86,23 @@ print(etree.tostring(req, pretty_print=True, xml_declaration=True, encoding="UTF
 
 # Post the request:
 xml = etree.tostring(req, xml_declaration=True, encoding="UTF-8")
-req = urllib2.Request(url = scanner+'ScanJobs', data=xml,
+req = urllib.request.Request(url = scanner+'ScanJobs', data=xml,
         headers={'Content-Type': 'text/xml'})
 location = None
 try:
-    hh = urllib2.HTTPHandler()
-    hsh = urllib2.HTTPSHandler()
+    hh = urllib.request.HTTPHandler()
+    hsh = urllib.request.HTTPSHandler()
     hh.set_http_debuglevel(1)
     hsh.set_http_debuglevel(1)
-    opener = urllib2.build_opener(hh, hsh)
+    opener = urllib.request.build_opener(hh, hsh)
     logger = logging.getLogger()
     logger.addHandler(logging.StreamHandler(sys.stdout))
     logger.setLevel(logging.NOTSET)
     # opener.open(req)
-    response = urllib2.urlopen(req)
-    print (response.info())
+    response = urllib.request.urlopen(req)
+    print(response.info())
     location = response.info().getheader("Location")
-except urllib2.HTTPError as e:
+except urllib.error.HTTPError as e:
     if e.code != 201:
         print(e.code)
         print(e.read())
@@ -121,8 +122,8 @@ else:
     of = tempfile.NamedTemporaryFile(suffix=".jpg", delete=False)
     onam = of.name
 print("Scanning to: %s" % onam)
-req = urllib2.Request(url = location + "/NextDocument")
-data = urllib2.urlopen(req)
+req = urllib.request.Request(url = location + "/NextDocument")
+data = urllib.request.urlopen(req)
 of.write(data.read())
 of.close()
 print("Scan saved to: %s" % of.name)
