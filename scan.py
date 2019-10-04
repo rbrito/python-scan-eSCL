@@ -117,7 +117,7 @@ if not location:
     sys.exit(1)
 
 if onam:
-    of = open(onam, "w")
+    of = open(onam, "wb")
 else:
     of = tempfile.NamedTemporaryFile(suffix=".jpg", delete=False)
     onam = of.name
