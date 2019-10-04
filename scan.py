@@ -15,7 +15,6 @@ resolution = sys.argv[2] if len(sys.argv) > 2 else None
 scanner = None
 
 ##### Scanner discovery via zeroconf:
-import zeroconf, time
 timeout = 30
 sb = None
 
