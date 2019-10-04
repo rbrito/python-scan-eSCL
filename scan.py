@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import logging
 import sys
 import tempfile
 import time
@@ -88,10 +89,6 @@ req = urllib2.Request(url = scanner+'ScanJobs', data=xml,
         headers={'Content-Type': 'text/xml'})
 location = None
 try:
-    import logging
-    import sys
-    import urllib2
-
     hh = urllib2.HTTPHandler()
     hsh = urllib2.HTTPSHandler()
     hh.set_http_debuglevel(1)
