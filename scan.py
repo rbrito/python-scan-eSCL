@@ -1,5 +1,12 @@
 #!/usr/bin/python
-import urllib, urllib2, sys, tempfile
+import sys
+import tempfile
+import time
+import urllib
+import urllib2
+
+import zeroconf
+
 from lxml import etree
 
 # Usage: python scan.py "filename.jpg" 600
@@ -82,7 +89,9 @@ req = urllib2.Request(url = scanner+'ScanJobs', data=xml,
         headers={'Content-Type': 'text/xml'})
 location = None
 try:
-    import logging, urllib2, sys
+    import logging
+    import sys
+    import urllib2
 
     hh = urllib2.HTTPHandler()
     hsh = urllib2.HTTPSHandler()
